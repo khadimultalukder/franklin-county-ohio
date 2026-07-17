@@ -62,14 +62,20 @@ async def human_type(locator, text):
 
 
 async def click_ok_if_present(page, timeout=3000):
-    ok_button = page.locator("xpath=//input[@value='OK']").first
-    try:
-        await ok_button.wait_for(state="visible", timeout=timeout)
-        await human_wait(0.3, 0.8)
-        await ok_button.click()
-        return True
-    except Exception:
-        return False
+    xpaths = [
+        "xpath=//input[@value='OK']",
+        "xpath=//input[@value='Ok']",
+    ]
+    for xp in xpaths:
+        ok_button = page.locator(xp).first
+        try:
+            await ok_button.wait_for(state="visible", timeout=timeout)
+            await human_wait(0.3, 0.8)
+            await ok_button.click()
+            return True
+        except Exception:
+            continue
+    return False
 
 
 async def safe_text(page, xpath, timeout=3000):
