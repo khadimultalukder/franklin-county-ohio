@@ -1,10 +1,10 @@
-# Montgomery County Sheriff Sale Auction Scraper
+# Franklin County Sheriff Sale Auction Scraper
 
 Logs into the Montgomery County (Ohio) sheriff sale auction site, walks the auction calendar, opens each case, and writes the extracted details to a Google Sheet.
 
 ## Files
 
-- `scrape_cases.py` — main script. Collects all case links on a calendar page first, then scrapes each one individually (avoids issues with rows shifting/hiding mid-scrape).
+- `franklin_scrape_cases.py` — main script. Collects all case links on a calendar page first, then scrapes each one individually (avoids issues with rows shifting/hiding mid-scrape).
 - `.env` — configuration (login, sheet target). Not committed with real secrets — fill in your own values.
 - `requirements.txt` — Python dependencies.
 
@@ -18,13 +18,13 @@ Logs into the Montgomery County (Ohio) sheriff sale auction site, walks the auct
 
 2. Fill in `.env`:
    ```
-   TARGET_URL=https://montgomery.sheriffsaleauction.ohio.gov/index.cfm
+   TARGET_URL=https://franklin.sheriffsaleauction.ohio.gov/
    HEADLESS=false
    LOGIN_USERNAME=your_username_here
    LOGIN_PASSWORD=your_password_here
 
    GOOGLE_SHEET_ID=your_sheet_id
-   GOOGLE_SHEET_TAB=MONTGOMERY
+   GOOGLE_SHEET_TAB=FRANKLIN
    GOOGLE_SERVICE_ACCOUNT_FILE=config/service_account.json
    ```
 
@@ -36,7 +36,7 @@ Logs into the Montgomery County (Ohio) sheriff sale auction site, walks the auct
 ## Running
 
 ```
-python scrape_cases.py
+python franklin_scrape_cases.py
 ```
 
 The script will:
