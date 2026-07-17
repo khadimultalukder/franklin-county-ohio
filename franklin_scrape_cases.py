@@ -190,6 +190,8 @@ async def main():
         await human_wait(0.5, 1)
         await click_ok_if_present(page)
         await human_wait(1, 2)
+        await click_ok_if_present(page)
+        await human_wait(0.5, 2)
 
         await page.goto(CALENDAR_URL)
         await human_wait(1.5, 3)
