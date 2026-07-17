@@ -11,10 +11,10 @@ load_dotenv()
 
 logging.basicConfig(
     level=logging.INFO,
-    format="%(asctime)s [montgomery] %(levelname)s: %(message)s",
+    format="%(asctime)s [Franklin] %(levelname)s: %(message)s",
     datefmt="%Y-%m-%d %H:%M:%S",
 )
-logger = logging.getLogger("montgomery")
+logger = logging.getLogger("Franklin")
 
 URL = os.getenv("TARGET_URL", "https://franklin.sheriffsaleauction.ohio.gov/index.cfm")
 CALENDAR_URL = "https://franklin.sheriffsaleauction.ohio.gov/index.cfm?ZACTION=USER&ZMETHOD=CALENDAR"
@@ -217,6 +217,7 @@ async def click_case_list_next_page(page, timeout=3000):
     try:
         await next_arrow.wait_for(state="visible", timeout=timeout)
         await next_arrow.click()
+        await asyncio.sleep(3)
         return True
     except Exception:
         return False
