@@ -40,8 +40,8 @@ CASE_FIELDS = {
     "appraised_value": "//th[contains(.,'Appraised Value')]/following-sibling::td[1]",
     "opening_bid": "//th[contains(.,'Opening Bid')]/following-sibling::td[1]",
     "case_status": "//th[contains(.,'Case Status')]/following-sibling::td[1]",
-    "defendant": "//div[@class='bDiv']//td[contains(.,'DEFENDANT')]/following-sibling::td[1]",
-    "plaintiff": "//div[@class='bDiv']//td[contains(.,'PLAINTIFF')]/following-sibling::td[1]",
+    "defendant": "//div[@class='bDiv']//td[contains(.,'Defendant')]/following-sibling::td[1]",
+    "plaintiff": "//div[@class='bDiv']//td[contains(.,'Plaintiff')]/following-sibling::td[1]",
     "auction_sold": "//div[@class='ASTAT_MSGB Astat_DATA']",
     "amount": "//div[@class='ASTAT_MSGD Astat_DATA']",
 }
