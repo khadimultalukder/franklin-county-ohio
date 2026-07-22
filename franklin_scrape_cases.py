@@ -107,7 +107,7 @@ def split_city_state_zip(addr):
         logger.warning(f"Could not parse city/state/zip from address: {addr!r}")
         return "", "", ""
     city, state, zip_code = m.groups()
-    return city, state.upper(), zip_code
+    return city, state.upper(), zip_code[:5]
 
 
 async def extract_case_details(case_page):
