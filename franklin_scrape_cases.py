@@ -33,10 +33,6 @@ GOOGLE_SERVICE_ACCOUNT_FILE = os.getenv("GOOGLE_SERVICE_ACCOUNT_FILE", "config/s
 CASE_FIELDS = {
     "sale_type": "//th[contains(.,'Sale Type')]/following-sibling::td[1]",
     "parcel_id": "//th[contains(.,'Parcel ID')]/following-sibling::td[1]",
-    # property address is split across two rows: the street on the
-    # "Property Address:" row, and city/state/zip on the very next row.
-    # The city/state/zip row is scraped separately (ROW_ADDRESS_XPATH below)
-    # and split into city/state/zip -- it isn't kept as its own column.
     "street_address": [
         "//th[contains(.,'Property Address')]/following-sibling::td[1]",
     ],
@@ -51,7 +47,6 @@ CASE_FIELDS = {
 ROW_ADDRESS_XPATH = "//th[contains(.,'Property Address')]/parent::tr/following-sibling::tr[1]/td[@class='bDat']"
 SHEET_COLUMNS = ["case_id", "case_url", "auction_date"] + list(CASE_FIELDS.keys()) + ["city", "state", "zip", "scraped_date"]
 
-MAX_CASE_LIST_PAGES = 50  # safety cap so the case-list pagination loop can't run forever
 
 
 async def human_wait(min_sec=1.0, max_sec=2.5):
@@ -264,7 +259,7 @@ async def collect_all_cases_for_day(page):
     all_cases = []
     page_num = 1
 
-    while page_num <= MAX_CASE_LIST_PAGES:
+    while True:
         all_cases.extend(await collect_case_links(page))
 
         max_pages = await get_case_list_max_pages(page)
