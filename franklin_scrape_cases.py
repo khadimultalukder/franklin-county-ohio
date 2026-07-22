@@ -35,10 +35,10 @@ CASE_FIELDS = {
     # property address is split across two rows: the street on the
     # "Property Address:" row, and city/state/zip on the very next row --
     # both parts get joined together into one field
-    "property_address": [
+    "street_address": [
         "//th[contains(.,'Property Address')]/following-sibling::td[1]",
-        "//th[contains(.,'Property Address')]/parent::tr/following-sibling::tr[1]/td[@class='bDat']",
     ],
+    "row_address": "//th[contains(.,'Property Address')]/parent::tr/following-sibling::tr[1]/td[@class='bDat']",
     "appraised_value": "//th[contains(.,'Appraised Value')]/following-sibling::td[1]",
     "opening_bid": "//th[contains(.,'Opening Bid')]/following-sibling::td[1]",
     "case_status": "//th[contains(.,'Case Status')]/following-sibling::td[1]",
