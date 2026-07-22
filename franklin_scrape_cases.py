@@ -33,6 +33,10 @@ GOOGLE_SERVICE_ACCOUNT_FILE = os.getenv("GOOGLE_SERVICE_ACCOUNT_FILE", "config/s
 CASE_FIELDS = {
     "sale_type": "//th[contains(.,'Sale Type')]/following-sibling::td[1]",
     "parcel_id": "//th[contains(.,'Parcel ID')]/following-sibling::td[1]",
+    # property address is split across two rows: the street on the
+    # "Property Address:" row, and city/state/zip on the very next row.
+    # The city/state/zip row is scraped separately (ROW_ADDRESS_XPATH below)
+    # and split into city/state/zip -- it isn't kept as its own column.
     "street_address": [
         "//th[contains(.,'Property Address')]/following-sibling::td[1]",
     ],
@@ -46,7 +50,6 @@ CASE_FIELDS = {
 }
 ROW_ADDRESS_XPATH = "//th[contains(.,'Property Address')]/parent::tr/following-sibling::tr[1]/td[@class='bDat']"
 SHEET_COLUMNS = ["case_id", "case_url", "auction_date"] + list(CASE_FIELDS.keys()) + ["city", "state", "zip", "scraped_date"]
-
 
 
 async def human_wait(min_sec=1.0, max_sec=2.5):
@@ -99,14 +102,11 @@ def split_city_state_zip(addr):
     # always "City, ST 43215" -- comma after city, state as 2 capital
     # letters, zip as digits only.
     cleaned = re.sub(r"\s+", " ", addr.strip())
-    # zip can be "43215", "43215-1234", or "432151234" (9 digits, no dash --
-    # the site sometimes concatenates the +4 without a separator)
-    m = re.match(r"^(.*?),\s*([A-Z]{2})\s+(\d{5})-?(\d{4})?$", cleaned)
+    m = re.match(r"^(.*?),\s*([A-Z]{2})\s+(\d+)$", cleaned)
     if not m:
         logger.warning(f"Could not parse city/state/zip from address: {addr!r}")
         return "", "", ""
-    city, state, zip5, zip4 = m.groups()
-    zip_code = f"{zip5}-{zip4}" if zip4 and zip4 != "0000" else zip5
+    city, state, zip_code = m.groups()
     return city, state.upper(), zip_code
 
 
